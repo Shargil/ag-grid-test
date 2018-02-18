@@ -27,6 +27,7 @@ app.controller("myCtrl", function($scope) {
 
     $scope.gridOptions = {
         columnDefs: columnDefs,
-        rowData: rowData
+        rowData: rowData,
+        enableRtl : true
     };
 });
