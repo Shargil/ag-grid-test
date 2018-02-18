@@ -19,14 +19,32 @@ app.controller("myCtrl", function($scope) {
     ];
 
     var rowData = [
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "9638527", driverName: "טל איטח"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "2583694", driverName: "סוניה יוסף"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status: "איחוד עמודות", comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "4956325", driverName: "ליאור הירש"},
    ];
 
-    $scope.gridOptions = {
+    $scope.mainGridOptions = {
         columnDefs: columnDefs,
-        rowData: rowData
+        rowData: rowData,
+        enableRtl : true,
+        rowSelection : "single",
+        onSelectionChanged : onMainGridRowSelected
     };
+
+    function onMainGridRowSelected() {
+        $scope.secondGridOption.api.setRowData($scope.mainGridOptions.api.getSelectedRows());
+    }
+
+    var secondColumnDefs = [
+        {headerName: "צ' רכב", field: "ituran"},
+        {headerName: "שם נהג", field: "driverName"}
+    ];
+
+    $scope.secondGridOption = {
+        columnDefs: secondColumnDefs,
+        rowData: [],
+        enableRtl : true
+    }
 });
