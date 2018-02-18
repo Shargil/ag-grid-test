@@ -23,21 +23,21 @@ app.controller("myCtrl", function($scope) {
     ];
 
     var rowData = [
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל1"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל2"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל3"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "4ים שרגיל"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "5ים שרגיל"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "6ים שרגיל"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"},
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "7ים שרגיל"},
         
-        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב"}
+        {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל8"}
     ];
     
     // a default column definition with properties that get applied to every column
@@ -57,9 +57,11 @@ app.controller("myCtrl", function($scope) {
         "dateColumn": {filter: 'agDateColumnFilter', suppressMenu:true}
     };
 
-    $scope.gridOptions = {
+    $scope.mainGridOptions = {
         rowData: rowData,
         enableRtl : true,
+        enableSorting: true,
+        
         // Columns
         columnDefs: columnDefs,
         defaultColDef: defaultColDef,
@@ -69,13 +71,28 @@ app.controller("myCtrl", function($scope) {
         enableColResize: true,
         suppressDragLeaveHidesColumns: true,
         
-        enableSorting: true,
-        
         rowSelection : "multiple",
         rowDeselection : true,
         
-        pinnedBottomRowData : [{convoyName : 1, date: "23/8/17", convoyNum: 22}]
+        pinnedBottomRowData : [{convoyName : 1, date: "23/8/17", convoyNum: 22}],
         
-        
+        // Events
+        onSelectionChanged : onMainGridRowSelected
+
     };
+
+    function onMainGridRowSelected() {
+        $scope.secondGridOption.api.setRowData($scope.mainGridOptions.api.getSelectedRows());
+    }
+
+    var secondColumnDefs = [
+        {headerName: "צ' רכב", field: "ituran", width: 185},
+        {headerName: "שם נהג", field: "driverName", width: 200}
+    ];
+
+    $scope.secondGridOption = {
+        columnDefs: secondColumnDefs,
+        rowData: [],
+        enableRtl : true
+    }
 });
