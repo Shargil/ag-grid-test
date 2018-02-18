@@ -70,6 +70,7 @@ app.controller("myCtrl", function($scope) {
         resizing : true,
         enableColResize: true,
         suppressDragLeaveHidesColumns: true,
+        showToolPanel: true,
         
         rowSelection : "multiple",
         rowDeselection : true,
