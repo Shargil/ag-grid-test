@@ -9,7 +9,7 @@ app.controller("myCtrl", function($scope) {
     var columnDefs = [
         {headerName: "שם שדרה", field: "convoyName"}, // סתם סטרינג בעברית
         {headerName: "תאריך", field: "date", type : "dateColumn",  filter: "agDateColumnFilter"}, // , לבדוק פורמטר, תאריך
-        {headerName: "שדרה ריקה", field: "isEmpty", width: 100}, //אייקון
+        {headerName: "שדרה ריקה", field: "isEmpty", width: 100, type: ["nonEditableColumn"], cellRenderer: 'isConvoyEmptyRenderer'}, //אייקון
         {headerName: "סטטוס שדרה", children : [
             {headerName: "בהעמסה", field : "status_loading", suppressFilter: true, width: 90}, 
             {headerName: "בפריקה", field : "status_unloading", suppressFilter: true,  width: 90}, 
@@ -61,6 +61,8 @@ app.controller("myCtrl", function($scope) {
         rowData: rowData,
         enableRtl : true,
         enableSorting: true,
+        editType: 'fullRow',
+        stopEditingWhenGridLosesFocus : true,
         
         // Columns
         columnDefs: columnDefs,
@@ -71,13 +73,22 @@ app.controller("myCtrl", function($scope) {
         enableColResize: true,
         suppressDragLeaveHidesColumns: true,
         
+        // Selects
         rowSelection : "multiple",
         rowDeselection : true,
+        
+        // Pagination
+        pagination : true,
+        paginationAutoPageSize : true,
         
         pinnedBottomRowData : [{convoyName : 1, date: "23/8/17", convoyNum: 22}],
         
         // Events
-        onSelectionChanged : onMainGridRowSelected
+        onSelectionChanged : onMainGridRowSelected,
+        
+        components : {
+            isConvoyEmptyRenderer : isConvoyEmptyRenderer,
+        }   
 
     };
 
@@ -94,5 +105,13 @@ app.controller("myCtrl", function($scope) {
         columnDefs: secondColumnDefs,
         rowData: [],
         enableRtl : true
+    }    
+    
+    function isConvoyEmptyRenderer(params) {
+        if (params.value) {
+            return "<span class='glyphicon glyphicon-ok'></span>";
+        }
+        return "<span class='glyphicon glyphicon-remove'></span>";
     }
+    
 });
