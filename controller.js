@@ -7,18 +7,18 @@ app.controller("myCtrl", function($scope) {
     // נוסיף פפסי זברה, סדרן עמודות, תפריט כלים עם מחיקה, בריחה של מספר שורות וכו
     // שורת סיכום קבוה למטה, עריכה מתאפשרת רק אחרי לחיצה על כפתור עריכה בתפריט כלים
     var columnDefs = [
-        {headerName: "שם שדרה", field: "convoyName"}, // סתם סטרינג בעברית
-        {headerName: "תאריך", field: "date", type : "dateColumn",  filter: "agDateColumnFilter"}, // , לבדוק פורמטר, תאריך
-        {headerName: "שדרה ריקה", field: "isEmpty", width: 100}, //אייקון
-        {headerName: "סטטוס שדרה", children : [
+        {ID: "convoyName", headerName: "שם שדרה", field: "convoyName"}, // סתם סטרינג בעברית
+        {ID: "date", headerName: "תאריך", field: "date", type : "dateColumn",  filter: "agDateColumnFilter"}, // , לבדוק פורמטר, תאריך
+        {ID: "isEmpty", headerName: "שדרה ריקה", field: "isEmpty", width: 100}, //אייקון
+        {ID: "status", headerName: "סטטוס שדרה", children : [
             {headerName: "בהעמסה", field : "status_loading", suppressFilter: true, width: 90}, 
             {headerName: "בפריקה", field : "status_unloading", suppressFilter: true,  width: 90}, 
             {headerName: "בתנועה", field : "status_movement", suppressFilter: true,  width: 90} 
         ]}, // איחוד כותרת בעמודות
-        {headerName: "הערות", field: "comments"}, // לוודא עריכה
-        {headerName: "הערות אנגלית", field: "comments2"}, // לוודא עריכה
-        {headerName: "מספר שדרה", field: "convoyNum", type: ["nonEditableColumn"], width: 100, filter: "agNumberColumnFilter"}, // נעול לעריכה וסינון לפי קטן מ, גדול מ..
-        {headerName: "מגניב", field: "isCool", width: 100} // לעשות סטיילר,עם מגניב ירוק אם לא מגניב אז אדום וסינון עם כומבו בוקס של האופציות         
+        {ID: "comments", headerName: "הערות", field: "comments"}, // לוודא עריכה
+        {ID: "comments2", headerName: "הערות אנגלית", field: "comments2"}, // לוודא עריכה
+        {ID: "convoyNum", headerName: "מספר שדרה", field: "convoyNum", type: ["nonEditableColumn"], width: 100, filter: "agNumberColumnFilter"}, // נעול לעריכה וסינון לפי קטן מ, גדול מ..
+        {ID: "isCool", headerName: "מגניב", field: "isCool", width: 100} // לעשות סטיילר,עם מגניב ירוק אם לא מגניב אז אדום וסינון עם כומבו בוקס של האופציות
     
     ];
 
@@ -39,7 +39,7 @@ app.controller("myCtrl", function($scope) {
         
         {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל8"}
     ];
-    
+
     // a default column definition with properties that get applied to every column
     var defaultColDef = {
         // make every column editable
@@ -96,4 +96,23 @@ app.controller("myCtrl", function($scope) {
         rowData: [],
         enableRtl : true
     }
+
+    var modal = document.getElementById('myModal');
+
+    $scope.openColumnsOrganizer = function(ev) {
+        modal.style.display = "block";
+    };
+
+    $scope.closeColumnsOrganizer = function() {
+        modal.style.display = "none";
+    };
+
+    $scope.submitColumnsOrganizer = function() {
+        for (var column in $scope.mainGridOptions.columnDefs) {
+            $scope.mainGridOptions.columnApi.setColumnVisible($scope.mainGridOptions.columnDefs[column].ID,
+                document.getElementById($scope.mainGridOptions.columnDefs[column].ID).checked);
+        }
+
+        $scope.closeColumnsOrganizer();
+    };
 });
