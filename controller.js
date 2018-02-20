@@ -7,7 +7,7 @@ app.controller("myCtrl", function($scope) {
     // נוסיף פפסי זברה, סדרן עמודות, תפריט כלים עם מחיקה, בריחה של מספר שורות וכו
     // שורת סיכום קבוה למטה, עריכה מתאפשרת רק אחרי לחיצה על כפתור עריכה בתפריט כלים
     var columnDefs = [
-        {ID: "convoyName", headerName: "שם שדרה", field: "convoyName"}, // סתם סטרינג בעברית
+        {ID: "convoyName", headerName: "שם שדרה", field: "convoyName", hide: true}, // סתם סטרינג בעברית
         {ID: "date", headerName: "תאריך", field: "date", type : "dateColumn",  filter: "agDateColumnFilter"}, // , לבדוק פורמטר, תאריך
         {ID: "isEmpty", headerName: "שדרה ריקה", field: "isEmpty", width: 100}, //אייקון
         {ID: "status", headerName: "סטטוס שדרה", children : [
@@ -21,6 +21,17 @@ app.controller("myCtrl", function($scope) {
         {ID: "isCool", headerName: "מגניב", field: "isCool", width: 100} // לעשות סטיילר,עם מגניב ירוק אם לא מגניב אז אדום וסינון עם כומבו בוקס של האופציות
     
     ];
+
+    $scope.displayedColumns = {};
+
+    // Creating a dictionary of all the columns and their display value for the columns organizer
+    for (var column in columnDefs) {
+        if (columnDefs[column].hide != undefined) {
+            $scope.displayedColumns[columnDefs[column].headerName] = !columnDefs[column].hide;
+        } else {
+            $scope.displayedColumns[columnDefs[column].headerName] = true;
+        }
+    }
 
     var rowData = [
         {convoyName: "השדרה הטובה בעולם", date: new Date(), isEmpty: true, status_loading: true, status_unloading: false, status_movement: false, comments: "תערוך אותי!", comments2: "Edit me!", convoyNum: 22, isCool: "מגניב", ituran: "1234567", driverName: "ים שרגיל1"},
@@ -97,20 +108,21 @@ app.controller("myCtrl", function($scope) {
         enableRtl : true
     }
 
-    var modal = document.getElementById('myModal');
+    //------------------------------------- Columns organizer -------------------------------------//
+    var columnsOrganizerModal = document.getElementById('myModal');
 
     $scope.openColumnsOrganizer = function(ev) {
-        modal.style.display = "block";
+        columnsOrganizerModal.style.display = "block";
     };
 
     $scope.closeColumnsOrganizer = function() {
-        modal.style.display = "none";
+        columnsOrganizerModal.style.display = "none";
     };
 
     $scope.submitColumnsOrganizer = function() {
         for (var column in $scope.mainGridOptions.columnDefs) {
             $scope.mainGridOptions.columnApi.setColumnVisible($scope.mainGridOptions.columnDefs[column].ID,
-                document.getElementById($scope.mainGridOptions.columnDefs[column].ID).checked);
+                                                              $scope.displayedColumns[$scope.mainGridOptions.columnDefs[column].headerName]);
         }
 
         $scope.closeColumnsOrganizer();

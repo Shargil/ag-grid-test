@@ -12,19 +12,17 @@
             <button ng-click="openColumnsOrganizer($event)">סדרן עמודות</button>
             <div ag-grid="mainGridOptions" class="ag-theme-blue" style="height: 60%; width: 70%; margin-top: 6%; margin-right: 1%; float: right;"></div>
             <div ag-grid="secondGridOption" class="ag-theme-blue" style="height: 60%; width: 25%; margin-top: 6%; margin-right: 1%; float: left;"></div>
-
             <!--Columns organizer modal-->
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <span ng-click="closeColumnsOrganizer()" class="close">&times;</span>
                     <ul style="list-style: none;">
-                        <li ng-repeat="column in mainGridOptions.columnDefs">
-                            <input type="checkbox" id={{column.ID}} checked>{{column.headerName}}<br>
+                        <li ng-repeat="(headerName, isDisplayed) in displayedColumns">
+                            <input type="checkbox" ng-model="displayedColumns[headerName]">{{headerName}}<br>
                         </li>
                     </ul>
                     <button ng-click="submitColumnsOrganizer()">אישור</button>
                 </div>
-
             </div>
         </div>
         <script src="controller.js"></script>
