@@ -9,7 +9,7 @@ app.controller("myCtrl", function($scope) {
     var columnDefs = [
         {ID: "convoyName", headerName: "שם שדרה", field: "convoyName", hide: true}, // סתם סטרינג בעברית
         {ID: "date", headerName: "תאריך", field: "date", type : "dateColumn",  filter: "agDateColumnFilter"}, // , לבדוק פורמטר, תאריך
-        {ID: "isEmpty", headerName: "שדרה ריקה", field: "isEmpty", width: 100}, //אייקון
+        {ID: "isEmpty", headerName: "שדרה ריקה", field: "isEmpty", width: 100, type: ["nonEditableColumn"], cellRenderer: 'isConvoyEmptyRenderer'}, //אייקון
         {ID: "status", headerName: "סטטוס שדרה", children : [
             {headerName: "בהעמסה", field : "status_loading", suppressFilter: true, width: 90}, 
             {headerName: "בפריקה", field : "status_unloading", suppressFilter: true,  width: 90}, 
@@ -72,6 +72,8 @@ app.controller("myCtrl", function($scope) {
         rowData: rowData,
         enableRtl : true,
         enableSorting: true,
+        editType: 'fullRow',
+        stopEditingWhenGridLosesFocus : true,
         
         // Columns
         columnDefs: columnDefs,
@@ -83,13 +85,22 @@ app.controller("myCtrl", function($scope) {
         suppressDragLeaveHidesColumns: true,
         showToolPanel: true,
         
+        // Selects
         rowSelection : "multiple",
         rowDeselection : true,
+        
+        // Pagination
+        pagination : true,
+        paginationAutoPageSize : true,
         
         pinnedBottomRowData : [{convoyName : 1, date: "23/8/17", convoyNum: 22}],
         
         // Events
-        onSelectionChanged : onMainGridRowSelected
+        onSelectionChanged : onMainGridRowSelected,
+        
+        components : {
+            isConvoyEmptyRenderer : isConvoyEmptyRenderer,
+        }   
 
     };
 
@@ -106,12 +117,19 @@ app.controller("myCtrl", function($scope) {
         columnDefs: secondColumnDefs,
         rowData: [],
         enableRtl : true
+    }    
+    
+    function isConvoyEmptyRenderer(params) {
+        if (params.value) {
+            return "<span class='glyphicon glyphicon-ok'></span>";
+        }
+        return "<span class='glyphicon glyphicon-remove'></span>";
     }
 
     //------------------------------------- Columns organizer -------------------------------------//
     var columnsOrganizerModal = document.getElementById('myModal');
 
-    $scope.openColumnsOrganizer = function(ev) {
+    $scope.openColumnsOrganizer = function() {
         columnsOrganizerModal.style.display = "block";
     };
 
