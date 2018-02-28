@@ -30,3 +30,38 @@
     font-size: 28px;
     font-weight: bold;
 }
+.ag-paging-panel {
+    background-color: #5e9cd3 !important;
+    height: 7% !important;
+    color: darkblue;
+}
+
+.gridToolBarBtn {
+    float: right;
+    margin-right: 1%;
+}
+
+
+/*
+.ag-paging-button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle !important;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    font-family: inherit;
+    color: #6c757d;
+    background-color: white;
+    background-image: none;
+    border-color: #6c757d;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}*/
